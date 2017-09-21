@@ -1,7 +1,9 @@
 package Algorythm;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by sziszka on 2017.09.20..
@@ -222,14 +224,18 @@ public class Algorythm {
     }
 
     public Object[] destroyer(Object[] numbers, Object... remove) {
-        ArrayList<Object> arrayList = new ArrayList<Object>();
-        for (int i = 0; i < numbers.length; i++) {
 
+        List<Object> objects = Arrays.asList(remove);
+
+        List<Object> result = new ArrayList<>();
+
+        for(Object o: numbers){
+            if(!objects.contains(o)){
+                result.add(o);
+            }
         }
-        for (int i = 0; i < arrayList.size(); i++) {
-            System.out.println(arrayList.get(i));
-        }
-        return new Object[0];
+
+        return result.toArray();
     }
 
     public Object[] slasher(Object[] numbers, int counter) {
@@ -288,6 +294,59 @@ public class Algorythm {
         for (int i: result) {
             System.out.println(i);
         }
+        return result;
+
+    }
+
+    public int[][] chunkArrayInGroups(int[] startArray, int number){
+
+        Double temp = new Double(Math.ceil(startArray.length / (double)number));
+        int numberOfSubarrays = temp.intValue();
+        int counter = 0;
+        int subArrayCounter = 0;
+
+        int[][]result = new int[numberOfSubarrays][];
+
+
+        List<Integer> startArrayList = new ArrayList<>();
+
+        for (int i:startArray) {
+            startArrayList.add(i);
+        }
+
+        int[]tempArray= new int[number];
+        while(startArrayList.size() > number){
+            if(counter < number){
+                tempArray[counter] = startArrayList.get(0);
+                startArrayList.remove(0);
+                counter ++;
+            }
+            else{
+                result[subArrayCounter] = tempArray;
+                tempArray = new int[number];
+                subArrayCounter ++;
+                counter = 0;
+            }
+        }
+
+        while(counter != number){
+            tempArray[counter] = startArrayList.get(0);
+            startArrayList.remove(0);
+            counter ++;
+        }
+        result[subArrayCounter] = tempArray;
+        subArrayCounter++;
+        counter = 0;
+
+        if(startArrayList.size() != 0){
+            tempArray = new int[startArrayList.size()];
+            for (int i:startArrayList) {
+                tempArray[counter] = i;
+                counter ++;
+            }
+            result[subArrayCounter] = tempArray;
+        }
+
         return result;
 
     }
